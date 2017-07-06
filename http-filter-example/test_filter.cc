@@ -34,9 +34,23 @@ class Instance : public Http::StreamDecoderFilter {
   }
   ~Instance(){}
 
+  // Http::StreamFilterBase
   void onDestroy() override {}
 
+  // Http::StreamDecoderFilter
   FilterHeadersStatus decodeHeaders(HeaderMap& , bool ) override{
+//    auto cb = [](const HeaderEntry& header, void* ) -> void {
+//        printf("\t\t%s: %s\n", header.key().c_str(), header.value().c_str());
+//    };
+//    printf("\tThis_is_decodeHeaders\n");
+//    headers.iterate(cb, nullptr);
+
+    // remove some headers
+//    printf("\tRemove some headers\n");
+//    headers.addStatic(LowerCaseString("warning"), "test-filter");
+//    headers.remove(LowerCaseString("user-agent"));
+//    headers.iterate(cb, nullptr);
+
     return FilterHeadersStatus::Continue;
   }
 
@@ -95,6 +109,29 @@ class TestFilterConfig : public HttpFilterConfigFactory {
   }
 //  std::string name() override{return "test";}
 };
+//
+//class NamedTestFilterConfig : public NamedHttpFilterConfigFactory {
+// public:
+//  HttpFilterFactoryCb createFilterFactory(
+//      HttpFilterType type,
+//      const Json::Object& config,
+//      const std::string& ,
+//      Server::Instance& ) override{
+//    // Envoy::Server::Configuration::FactoryContext& context) override{
+//
+//    if (type != HttpFilterType::Decoder)
+//      return nullptr;
+//
+//    Http::TestFilter::ConfigPtr test_config(
+//        new Http::TestFilter::Config(config));
+//
+//    return [test_config](Http::FilterChainFactoryCallbacks& callbacks) -> void {
+//        callbacks.addStreamDecoderFilter(
+//            Http::StreamDecoderFilterSharedPtr{new Http::TestFilter::Instance(test_config)});
+//    };
+//  }
+//  std::string name() override{return "test";}
+//};
 
 static RegisterHttpFilterConfigFactory<TestFilterConfig> register_;
 

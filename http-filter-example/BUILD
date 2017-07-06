@@ -32,6 +32,7 @@ envoy_cc_test(
     data =  ["//http-filter-example:envoy.conf"],
     repository = "@envoy",
     deps = [
-        "@envoy//test/integration:integration_lib"
+        ":http_filter_lib",
+        "@envoy//test/integration:integration_lib",
     ],
 )
